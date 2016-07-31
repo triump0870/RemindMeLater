@@ -1,4 +1,4 @@
-from fabric.api import local, run
+from fabric.api import local
 
 def push():
 	local('git status')
@@ -9,7 +9,7 @@ def push():
 		local('git add .')
 		commit_message = raw_input("Enter commit message:")
 		local('git commit -m "%s"'%commit_message)
-		branch_name = run('git name-rev --name-only HEAD')
+		branch_name = local('git name-rev --name-only HEAD', capture=True)
 		print "Current branch name: %s"%branch_name,
 		local('git push origin %s'%branch_name)
 
