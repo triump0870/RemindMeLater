@@ -46,7 +46,7 @@ RAVEN_CONFIG = {
     'dsn': 'https://67f46cd6b820412e8f0d4d94cc832486:36fba09345934d469d45b0b298e7e87b@app.getsentry.com/89988',
     # If you are using git, you can also automatically configure the
     # release based on the git info.
-    'release': raven.fetch_git_sha(join(dirname(__file__),"..","..","..")),
+    'release': raven.fetch_git_sha(join(dirname(__file__),"..","..","..","..")),
 }   
 
 # production database settings
