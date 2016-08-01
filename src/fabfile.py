@@ -17,7 +17,7 @@ def heroku():
 	branch_name = local('git name-rev --name-only HEAD', capture=True)
 	print "You are merging %s with master"%branch_name
 	local('git checkout master')
-	local('git pull origin master')
+	local('git pull origin master --commit "Changed"')
 	local('git merge %s'%branch_name)
 	local('git push origin master')
 	local('git checkout %s'%branch_name)
