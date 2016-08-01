@@ -54,7 +54,6 @@ DATABASES['default'].update(db_from_env)
 
 MIDDLEWARE_CLASSES = (
     'raven.contrib.django.raven_compat.middleware.Sentry404CatchMiddleware',
-    ...,
 ) + MIDDLEWARE_CLASSES
 
 # Reset logging
