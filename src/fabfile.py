@@ -6,10 +6,12 @@ def push():
 	inp = raw_input("Enter Y to continue:")
 	print "inp:",inp
 	if inp == "Y" or inp == 'y':
-		local('git add .')
+		local('git add -A')
 		commit_message = raw_input("Enter commit message:")
 		local('git commit -m "%s"'%commit_message)
 		branch_name = local('git name-rev --name-only HEAD', capture=True)
 		print "Current branch name: %s"%branch_name,
 		local('git push origin %s'%branch_name)
+
+		"842390"
 
