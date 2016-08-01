@@ -34,14 +34,9 @@ LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
 
 # Hereku postgres database settings
 DATABASES = {
-    'default': env.db(),
-    # {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     # 'NAME': 'rohanroy',
-    #     # 'USER': 'rohanroy',
-    #     # 'HOST': '/tmp/',
-    #     # 'PORT': 5432
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    }
 }
 
 # production database settings
