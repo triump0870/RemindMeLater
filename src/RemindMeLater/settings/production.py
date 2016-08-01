@@ -5,8 +5,8 @@ import logging.config
 import dj_database_url
 
 # For security and performance reasons, DEBUG is turned off
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
 # Must mention ALLOWED_HOSTS in production!
 # ALLOWED_HOSTS = ["RemindMeLater.com"]
