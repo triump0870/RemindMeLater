@@ -11,7 +11,5 @@ def push():
 		local('git commit -m "%s"'%commit_message)
 		branch_name = local('git name-rev --name-only HEAD', capture=True)
 		print "Current branch name: %s"%branch_name,
+		local('git status')
 		local('git push origin %s'%branch_name)
-
-		"842390"
-
