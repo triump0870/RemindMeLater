@@ -9,7 +9,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # Must mention ALLOWED_HOSTS in production!
-# ALLOWED_HOSTS = ["RemindMeLater.com"]
+ALLOWED_HOSTS = ["*"]
 
 # Cache the templates in memory for speed-up
 loaders = [
@@ -27,7 +27,7 @@ STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Log everything to the logs directory at the top
 LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
@@ -74,6 +74,16 @@ LOGGING = {
         'project': {
             'handlers': ['proj_log_file'],
             'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['proj_log_file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        '': {
+            'handlers': ['proj_log_file','console'],
+            'level': 'WARNING',
+            'propagate': True,
         },
     }
 }
