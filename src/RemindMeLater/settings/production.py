@@ -9,7 +9,7 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # Must mention ALLOWED_HOSTS in production!
-# ALLOWED_HOSTS = ["RemindMeLater.com"]
+ALLOWED_HOSTS = ["*"]
 
 # Cache the templates in memory for speed-up
 loaders = [
