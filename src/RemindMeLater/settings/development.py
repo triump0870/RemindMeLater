@@ -3,6 +3,7 @@ import sys
 import logging.config
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 TEMPLATES[0]['OPTIONS'].update({'debug': True})
 
