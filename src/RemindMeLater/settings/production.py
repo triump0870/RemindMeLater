@@ -2,6 +2,7 @@
 #    DJANGO_SETTINGS_MODULE=RemindMeLater.settings.production
 from .base import *             # NOQA
 import logging.config
+import dj_database_url
 
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
@@ -24,8 +25,16 @@ TEMPLATES[0].update({"APP_DIRS": False})
 # Define STATIC_ROOT for the collectstatic command
 STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 # Log everything to the logs directory at the top
 LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
+
+# production database settings
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 # Reset logging
 LOGGING_CONFIG = None
