@@ -11,3 +11,14 @@ def push():
 	print "Current branch name: %s"%branch_name,
 	local('git status')
 	local('git push origin %s'%branch_name)
+
+
+def heroku():
+	branch_name = local('git name-rev --name-only HEAD', capture=True)
+	print "You are merging %s with master"%branch_name
+	local('git checkout master')
+	local('git pull origin master --commit')
+	local('git merge %s'%branch_name)
+	local('git push origin master')
+	local('git checkout %s'%branch_name)
+	print "Merging done"

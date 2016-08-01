@@ -12,10 +12,10 @@ from os.path import dirname, join, exists, abspath
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(__file__)))
-STATICFILES_DIRS = [join(BASE_DIR, 'static')]
+# STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
-STATIC_ROOT = join(dirname(BASE_DIR), 'static')
+STATIC_ROOT = join(dirname(BASE_DIR), 'staticfiles')
 STATIC_URL = '/static/'
 
 # Use Django templates using the new Django 1.8 TEMPLATES settings
