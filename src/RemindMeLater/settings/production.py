@@ -25,6 +25,7 @@ TEMPLATES[0]['OPTIONS'].update({"loaders": loaders})
 TEMPLATES[0].update({"APP_DIRS": False})
 
 # Define STATIC_ROOT for the collectstatic command
+STATIC_ROOT = join(BASE_DIR,'static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
