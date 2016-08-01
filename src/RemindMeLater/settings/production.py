@@ -27,16 +27,21 @@ STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Log everything to the logs directory at the top
 LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
 
 # Hereku postgres database settings
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2'
-    }
+    'default': env.db(),
+    # {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     # 'NAME': 'rohanroy',
+    #     # 'USER': 'rohanroy',
+    #     # 'HOST': '/tmp/',
+    #     # 'PORT': 5432
+    # }
 }
 
 # production database settings
@@ -74,6 +79,16 @@ LOGGING = {
         'project': {
             'handlers': ['proj_log_file'],
             'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['proj_log_file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        '': {
+            'handlers': ['proj_log_file','console'],
+            'level': 'WARNING',
+            'propagate': True,
         },
     }
 }
