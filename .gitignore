@@ -60,3 +60,4 @@ Desktop.ini
 .travis.yml
 ./staticfiles/
 staticfiles/
+site/
