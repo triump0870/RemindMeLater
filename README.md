@@ -4,19 +4,18 @@ RemindMeLater is a _short description_. It is built with [Python][0] using the [
 
 This project has the following basic apps:
 
-* App1 (short desc)
-* App2 (short desc)
-* App3 (short desc)
+* Remainder
+
 
 ## Installation
 
 ### Quick start
 
-To set up a development environment quickly, first install Python 3. It
-comes with virtualenv built-in. So create a virtual env by:
+To set up a development environment quickly,
 
-    1. `$ python3 -m venv RemindMeLater`
-    2. `$ . RemindMeLater/bin/activate`
+    1. `$ virtualenv Project`
+    2. `$ source Project/bin/activate`
+    3. `$ git clone https://github.com/triump087/RemindMeLater.git`
 
 Install all dependencies:
 
