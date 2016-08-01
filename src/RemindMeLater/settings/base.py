@@ -79,6 +79,7 @@ INSTALLED_APPS = (
 
     'profiles',
     'accounts',
+    'raven.contrib.django.raven_compat',
 
 )
 
