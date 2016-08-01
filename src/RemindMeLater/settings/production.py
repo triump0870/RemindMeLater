@@ -35,7 +35,7 @@ LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
 # Hereku postgres database settings
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2'
     }
 }
 

@@ -1,1 +1,1 @@
-web: gunicorn --chdir src/ RemindMeLater.wsgi --preload
+web: gunicorn --chdir src/ RemindMeLater.wsgi --log-file - --preload
