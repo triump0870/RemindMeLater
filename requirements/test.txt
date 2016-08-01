@@ -1,0 +1,6 @@
+-r base.txt
+# Test dependencies
+coverage
+mock
+model-mommy
+six
