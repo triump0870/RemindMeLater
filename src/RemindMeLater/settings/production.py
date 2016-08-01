@@ -3,6 +3,8 @@
 from .base import *             # NOQA
 import logging.config
 import dj_database_url
+# Sentry/ Raven settings
+import raven
 
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
@@ -39,6 +41,14 @@ DATABASES = {
     }
 }
 
+
+RAVEN_CONFIG = {
+    'dsn': 'https://67f46cd6b820412e8f0d4d94cc832486:36fba09345934d469d45b0b298e7e87b@app.getsentry.com/89988',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(join(dirname(__file__),"..","..","..")),
+}   
+
 # production database settings
 db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
@@ -58,6 +68,11 @@ LOGGING = {
         },
     },
     'handlers': {
+        'sentry': {
+            'level': 'WARNING', # To capture more than ERROR, change to WARNING, INFO, etc.
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
         'proj_log_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
@@ -67,18 +82,34 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'verbose'
         }
     },
+
     'loggers': {
         'project': {
             'handlers': ['proj_log_file'],
             'level': 'DEBUG',
         },
         'django.request': {
-            'handlers': ['proj_log_file'],
+            'handlers': ['proj_log_file','sentry'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console','sentry'],
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console','sentry'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console','sentry'],
+            'propagate': False,
         },
         '': {
             'handlers': ['proj_log_file','console'],
@@ -87,5 +118,4 @@ LOGGING = {
         },
     }
 }
-
 logging.config.dictConfig(LOGGING)
