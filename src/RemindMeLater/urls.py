@@ -16,3 +16,4 @@ urlpatterns = [
 
 # User-uploaded files like profile pics need to be served in development
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns +=  [url(r'^static/(?P<path>.*)$','django.views.static.serve',{'document_root': 'static'})]

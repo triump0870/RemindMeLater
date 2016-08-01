@@ -15,7 +15,8 @@ BASE_DIR = dirname(dirname(dirname(__file__)))
 STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
-STATIC_ROOT = join(dirname(BASE_DIR), 'staticfiles')
+STATIC_ROOT = join(dirname(BASE_DIR), 'static')
+STATIC_URL = '/static/'
 
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
@@ -78,10 +79,12 @@ INSTALLED_APPS = (
 
     'profiles',
     'accounts',
+    'raven.contrib.django.raven_compat',
 
 )
 
 MIDDLEWARE_CLASSES = (
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,9 +115,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
-STATIC_URL = '/static/'
 
-ALLOWED_HOSTS = []
 
 # Crispy Form Theme - Bootstrap 3
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

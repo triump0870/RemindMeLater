@@ -3,13 +3,15 @@
 from .base import *             # NOQA
 import logging.config
 import dj_database_url
+# Sentry/ Raven settings
+import raven
 
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # Must mention ALLOWED_HOSTS in production!
-# ALLOWED_HOSTS = ["RemindMeLater.com"]
+ALLOWED_HOSTS = ["*"]
 
 # Cache the templates in memory for speed-up
 loaders = [
@@ -27,7 +29,7 @@ STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Log everything to the logs directory at the top
 LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
@@ -38,6 +40,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
     }
 }
+
+
+RAVEN_CONFIG = {
+    'dsn': 'https://67f46cd6b820412e8f0d4d94cc832486:36fba09345934d469d45b0b298e7e87b@app.getsentry.com/89988',
+    # If you are using git, you can also automatically configure the
+    # release based on the git info.
+    'release': raven.fetch_git_sha(join(dirname(__file__),"..","..","..")),
+}   
 
 # production database settings
 db_from_env = dj_database_url.config()
@@ -58,6 +68,11 @@ LOGGING = {
         },
     },
     'handlers': {
+        'sentry': {
+            'level': 'WARNING', # To capture more than ERROR, change to WARNING, INFO, etc.
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
         'proj_log_file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
@@ -67,15 +82,40 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple'
+            'formatter': 'verbose'
         }
     },
+
     'loggers': {
         'project': {
             'handlers': ['proj_log_file'],
             'level': 'DEBUG',
         },
+        'django.request': {
+            'handlers': ['proj_log_file','sentry'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console','sentry'],
+            'propagate': False,
+        },
+        'raven': {
+            'level': 'DEBUG',
+            'handlers': ['console','sentry'],
+            'propagate': False,
+        },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console','sentry'],
+            'propagate': False,
+        },
+        '': {
+            'handlers': ['proj_log_file','console'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
     }
 }
-
 logging.config.dictConfig(LOGGING)

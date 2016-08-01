@@ -61,3 +61,4 @@ Desktop.ini
 ./staticfiles/
 staticfiles/
 site/
+./static/
