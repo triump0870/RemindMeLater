@@ -8,7 +8,7 @@ import dj_database_url
 import raven
 
 # For security and performance reasons, DEBUG is turned off
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 # Must mention ALLOWED_HOSTS in production!
