@@ -1,7 +1,9 @@
 from django.conf.urls import url
-from .views import CreateReminderView, ReminderDetailView
+from .views import reminder_list,reminder_detail
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-	url(r'^reminder/$',CreateReminderView.as_view(),name='reminder'),
-	url(r'^reminder/(?P<pk>[0-9]+)/$', ReminderDetailView.as_view(), name='reminder-detail'),
+	url(r'^reminders/$',reminder_list),
+	url(r'^reminders/(?P<pk>[0-9]+)/$', reminder_detail),
 ]
+urlpatterns = format_suffix_patterns(urlpatterns)

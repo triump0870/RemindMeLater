@@ -3,6 +3,7 @@
 from .base import *             # NOQA
 import logging.config
 import dj_database_url
+
 # Sentry/ Raven settings
 import raven
 
@@ -25,7 +26,7 @@ TEMPLATES[0]['OPTIONS'].update({"loaders": loaders})
 TEMPLATES[0].update({"APP_DIRS": False})
 
 # Define STATIC_ROOT for the collectstatic command
-STATIC_ROOT = join(BASE_DIR,'static')
+STATIC_ROOT = join(BASE_DIR,'..','site','static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
