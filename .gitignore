@@ -59,6 +59,4 @@ Desktop.ini
 ./site/
 .travis.yml
 ./staticfiles/
-staticfiles/
-site/
-./static/
+manage.py
