@@ -59,6 +59,7 @@ Desktop.ini
 ./site/
 .travis.yml
 ./staticfiles/
-./manage.py
-./development.py
-./development.txt
+staticfiles/
+src/manage.py
+src/RemindMeLater/settings/development.py
+requirements/development.txt
