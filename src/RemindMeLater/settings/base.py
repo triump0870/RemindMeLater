@@ -81,6 +81,8 @@ INSTALLED_APPS = (
     'accounts',
     'raven.contrib.django.raven_compat',
     'rest_framework',
+    'Api',
+    'Reminder',
 
 )
 

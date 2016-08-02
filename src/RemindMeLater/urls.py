@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include(accounts.urls, namespace='accounts')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^apis/',include('Api.urls', namespace='api')),
 ]
 
 # User-uploaded files like profile pics need to be served in development
