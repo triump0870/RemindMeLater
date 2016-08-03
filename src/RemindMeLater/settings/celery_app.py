@@ -6,7 +6,7 @@ from kombu import serialization
 serialization.registry._decoders.pop("application/x-python-serialize")
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.development')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.production')
 app = Celery('RemindMeLater')
 
 # Using a string here means the worker will not have to
