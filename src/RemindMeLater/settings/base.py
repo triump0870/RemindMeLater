@@ -18,7 +18,17 @@ STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 STATIC_URL = '/static/'
-print "dlkfjsdkfjs",CELERY_RESULT_SERIALIZER
+# Route email through Amazon SES via Celery
+EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
+MAILER_EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
+
+# Log in to Amazon SES and get these
+AWS_ACCESS_KEY_ID = 'AKIAJ7UTJZ6IKAQNYVFQ'  # Amazon Simple Email Services key ID
+AWS_SECRET_ACCESS_KEY = 'Al0ApHrUVonFcZi3iWZi0se5QXERCh6e0BChIVezeSY4'  # Amazon Simple Email Services access key
+
+# Must be an email authorized on Amazon SES
+DEFAULT_FROM_EMAIL = 'rohan@rohanroy.com'
+
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
     {
@@ -87,7 +97,9 @@ INSTALLED_APPS = (
     'rest_framework',
     'Api',
     'Reminder',
-    'timezone_field'
+    'timezone_field',
+    'seacucumber',
+    'mailer',
 
 )
 

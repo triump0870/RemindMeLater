@@ -6,4 +6,6 @@ dj-database-url==0.4.1
 gunicorn==19.6.0
 kombu==3.0.35
 django-timezone-field==1.3
-
+git+https://github.com/pinax/django-mailer
+seacucumber
+supervisor
