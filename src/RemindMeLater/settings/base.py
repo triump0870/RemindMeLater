@@ -101,7 +101,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'twilio_notifications.middleware.TwilioNotificationsMiddleware',
+    # 'twilio_notifications.middleware.TwilioNotificationsMiddleware',
 )
 
 ROOT_URLCONF = 'RemindMeLater.urls'
