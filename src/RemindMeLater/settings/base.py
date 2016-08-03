@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 from django.core.urlresolvers import reverse_lazy
 from os.path import dirname, join, exists, abspath
+from .celeryconfig import *
+from kombu import serialization
 
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(__file__)))
@@ -16,7 +18,7 @@ STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 STATIC_URL = '/static/'
-
+print "dlkfjsdkfjs",CELERY_RESULT_SERIALIZER
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
     {
@@ -58,9 +60,12 @@ if exists(env_file):
 # SECURITY WARNING: keep the secret key used in production secret!
 # Raises ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env('SECRET_KEY')
-
+TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
+TWILIO_NUMBER = env('TWILIO_NUMBER')
 ALLOWED_HOSTS = []
-
+# serialization.registry._decoders.pop("application/x-python-serialize")
+print "TWILIO_AUTH_TOKEN:",TWILIO_AUTH_TOKEN
 # Application definition
 
 INSTALLED_APPS = (
@@ -82,6 +87,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'Api',
     'Reminder',
+    'timezone_field'
 
 )
 
@@ -94,6 +100,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'twilio_notifications.middleware.TwilioNotificationsMiddleware',
 )
 
 ROOT_URLCONF = 'RemindMeLater.urls'
@@ -106,7 +114,7 @@ WSGI_APPLICATION = 'RemindMeLater.wsgi.application'
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

@@ -20,7 +20,6 @@ def reminder_list(request, format=None):
 		return Response(serializer.data)
 
 	if request.method == 'POST':
-		print "DATA:",request.data
 		serializer = ReminderSerializer(data=request.data)
 		if serializer.is_valid():
 			serializer.save()

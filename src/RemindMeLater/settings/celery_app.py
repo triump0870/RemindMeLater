@@ -2,11 +2,12 @@ from __future__ import absolute_import
 import os
 from celery import Celery
 from django.conf import settings
-from .celeryconfig import *
+from kombu import serialization
+serialization.registry._decoders.pop("application/x-python-serialize")
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.development')
-app = Celery('RemindMeLater', broker=BROKER_URL)
+app = Celery('RemindMeLater')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
