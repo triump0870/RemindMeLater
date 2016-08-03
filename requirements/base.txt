@@ -6,7 +6,7 @@ django-admin-bootstrapped>=2.5.6
 django-authtools>=1.4.0
 easy-thumbnails>=2.3
 Djangorestframework>=3.0.3
-celery==3.1.23
+celery
 Fabric==1.12.0
 arrow==0.5.4
 twilio==4.4.0
