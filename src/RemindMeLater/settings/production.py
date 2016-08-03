@@ -10,8 +10,6 @@ import raven
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-TWILIO_ACCOUNT_SID = env('PRODUCTION_TWILIO_ACCOUNT_SID')
-print "TWILIO_ACCOUNT_SID-production:",TWILIO_ACCOUNT_SID
 
 # Must mention ALLOWED_HOSTS in production!
 ALLOWED_HOSTS = ["*"]
