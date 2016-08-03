@@ -7,8 +7,6 @@ from django.conf import settings
 
 import arrow
 
-from twilio.rest import TwilioRestClient
-
 from .models import Reminder
 from twilio_notifications.middleware import MessageClient
 
