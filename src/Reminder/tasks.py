@@ -10,8 +10,8 @@ import arrow
 from twilio.rest import TwilioRestClient
 
 from .models import Reminder
+from twilio_notifications.middleware import MessageClient
 
-client = TwilioRestClient()
 logger = get_task_logger(__name__)
 
 @shared_task
@@ -30,9 +30,6 @@ def send_sms_reminder(reminder_id):
 	reminder_time = arrow.get(reminder.time)
 	body = "{0}".format(reminder.message)
 
-	message = client.messages.create(
-		body = body,
-		to = reminder.phone_number,
-		from_ = settings.TWILIO_NUMBER
-	)
+	MessageClient.send_message(body,"+919148912120")
+	
 
