@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import timezone_field.fields
 import django.core.validators
 
 
@@ -15,6 +16,7 @@ class Migration(migrations.Migration):
             name='Reminder',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('task_id', models.CharField(max_length=50, editable=False, blank=True)),
                 ('message', models.CharField(max_length=500)),
                 ('date', models.DateField()),
                 ('time', models.TimeField()),
@@ -22,6 +24,7 @@ class Migration(migrations.Migration):
                 ('phone_number', models.CharField(blank=True, max_length=15, null=True, validators=[django.core.validators.RegexValidator(regex=b'^\\+?1?\\d{9,15}$', message=b"Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")])),
                 ('email', models.EmailField(max_length=100, null=True, blank=True)),
                 ('completed', models.BooleanField(default=False)),
+                ('time_zone', timezone_field.fields.TimeZoneField(default=b'Asia/Kolkata')),
             ],
         ),
     ]
