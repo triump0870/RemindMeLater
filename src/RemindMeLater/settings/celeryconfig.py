@@ -1,4 +1,3 @@
-BROKER_URL = 'amqp://'
 CELERY_RESULT_BACKEND = 'rpc://'
 BROKER_POOL_LIMIT = 3
 

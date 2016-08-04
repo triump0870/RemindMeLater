@@ -13,6 +13,7 @@ print "TWILIO_ACCOUNT_SID-development:",TWILIO_ACCOUNT_SID
 # See http://stackoverflow.com/a/4806384
 # if "celery" in sys.argv[0]:
 #     DEBUG = False
+BROKER_URL = 'amqp://'
 
 # Django Debug Toolbar
 INSTALLED_APPS += (
