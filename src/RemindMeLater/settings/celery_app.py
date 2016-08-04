@@ -17,9 +17,9 @@ class Celery(celery.Celery):
 
         # hook into the Celery error handler
         register_signal(client)
-        
+
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.production')
 app = Celery('project')
 
 # Using a string here means the worker will not have to
