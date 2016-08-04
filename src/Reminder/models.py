@@ -40,7 +40,7 @@ class Reminder(models.Model):
 		result=''
 		# result = send_sms_reminder.apply_async((self.pk,),eta=reminder_time,serializer = 'json')
 		# else:
-		result = send_mail_reminder.apply_async((self.pk,),eta=reminder_time,serializer='json')
+		result = send_mail_reminder(self.pk)
 		print "result:",result
 		return result.id
 
