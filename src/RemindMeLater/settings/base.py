@@ -87,9 +87,6 @@ INSTALLED_APPS = (
     'Api',
     'Reminder',
     'timezone_field',
-    'mailer',
-    'django_ses',
-
 )
 
 MIDDLEWARE_CLASSES = (
