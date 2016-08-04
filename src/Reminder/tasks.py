@@ -1,10 +1,10 @@
 from __future__ import absolute_import
 
-from celery import shared_task
+from celery import shared_task,task
 from celery.utils.log import get_task_logger
-
 from django.conf import settings
-
+from django.core.mail import send_mail
+import boto
 import arrow
 
 from .models import Reminder
@@ -30,4 +30,39 @@ def send_sms_reminder(reminder_id):
 
 	MessageClient.send_message(body,"+919148912120")
 	
+@shared_task
+def send_email_reminder(reminder_id):
+	logger.info("Send Email")
+
+	try:
+		reminder = Reminder.objects.get(pk=reminder_id)
+	except Reminder.DoesNotExist:
+		return
+	body = "{0}".format(reminder.message)
+	try:
+		mail = boto.connect_ses(settings.AWS_ACCESS_KEY_ID,settings.AWS_SECRET_ACCESS_KEY)
+		mail.send_email(settings.DEFAULT_FROM_EMAIL,"Remind Me Later Notification",body,reminder.email)
+		logger.info("Email Successfully send")
+		return "Email Successfully send"
+	except:
+		logger.info("There is some problem while sending email")
+		return "There is some problem while sending email"
+
+@task()
+def send_mail_reminder(reminder_id):
+	logger.info("Send Email")
+
+	try:
+		reminder = Reminder.objects.get(pk=reminder_id)
+	except Reminder.DoesNotExist:
+		return
+	body = "{0}".format(reminder.message)
+	try:
+		send_mail("Reminder App Notification",body,settings.DEFAULT_FROM_EMAIL,[reminder.email])
+		logger.info("Email Successfully send")
+		return "Email Successfully send"
+	except Exception as e:
+		logger.info("There is some problem while sending email")
+		print e
+		return e
 

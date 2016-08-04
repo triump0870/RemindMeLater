@@ -11,23 +11,12 @@ from django.core.urlresolvers import reverse_lazy
 from os.path import dirname, join, exists, abspath
 from .celeryconfig import *
 from kombu import serialization
-
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(__file__)))
 STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 STATIC_URL = '/static/'
-# Route email through Amazon SES via Celery
-EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
-MAILER_EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
-
-# Log in to Amazon SES and get these
-AWS_ACCESS_KEY_ID = 'AKIAJ7UTJZ6IKAQNYVFQ'  # Amazon Simple Email Services key ID
-AWS_SECRET_ACCESS_KEY = 'Al0ApHrUVonFcZi3iWZi0se5QXERCh6e0BChIVezeSY4'  # Amazon Simple Email Services access key
-
-# Must be an email authorized on Amazon SES
-DEFAULT_FROM_EMAIL = 'rohan@rohanroy.com'
 
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
@@ -98,13 +87,11 @@ INSTALLED_APPS = (
     'Api',
     'Reminder',
     'timezone_field',
-    'seacucumber',
-    'mailer',
-
 )
 
 MIDDLEWARE_CLASSES = (
     # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,7 +99,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
 )
 
 ROOT_URLCONF = 'RemindMeLater.urls'

@@ -36,9 +36,12 @@ class Reminder(models.Model):
 		date_time = datetime.combine(self.date,self.time)
 		reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
 
-		from .tasks import send_sms_reminder
-		result = send_sms_reminder.apply_async((self.pk,),eta=reminder_time,serializer = 'json')
-
+		from .tasks import send_sms_reminder, send_mail_reminder
+		result=''
+		# result = send_sms_reminder.apply_async((self.pk,),eta=reminder_time,serializer = 'json')
+		# else:
+		result = send_mail_reminder(self.pk)
+		print "result:",result
 		return result.id
 
 	def save(self, *args, **kwargs):
@@ -47,7 +50,6 @@ class Reminder(models.Model):
 		schedule_reminder method every time an Reminder object is created or updated.
 		"""
 		# Check if we have scheduled a celery task for this reminder before
-		print 
 		if self.task_id:
 			#Revoke that remnder if its time has changed 
 			celery_app.control.revoke(self.task_id)
