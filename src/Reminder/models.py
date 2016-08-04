@@ -3,7 +3,6 @@ from django.core.validators import RegexValidator
 import arrow
 from timezone_field import TimeZoneField
 from django.core.exceptions import ValidationError
-from datetime import datetime
 
 # Create your models here.
 class Reminder(models.Model):
@@ -29,41 +28,40 @@ class Reminder(models.Model):
 		if reminder_time < arrow.now():
 			raise ValidationError('You cannot schedule an reminder for the past. Please check your time and time_zone')
 
-	def schedule_reminder(self):
-		"""
-		Schedule a celery task to send the reminder
-		"""
-		date_time = datetime.combine(self.date,self.time)
-		reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
+	# def schedule_reminder(self):
+	# 	"""
+	# 	Schedule a celery task to send the reminder
+	# 	"""
+	# 	date_time = datetime.combine(self.date,self.time)
+	# 	reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
 
-		from .tasks import send_sms_reminder, send_mail_reminder
-		result=''
-		# result = send_sms_reminder.apply_async((self.pk,),eta=reminder_time,serializer = 'json')
-		# else:
-		result = send_mail_reminder(self.pk)
-		print "result:",result
-		return result.id
+	# 	from .tasks import send_sms_reminder, send_mail_reminder
+	# 	# result=''
+	# 	# result = send_sms_reminder.apply_async((self.pk,),eta=reminder_time,serializer = 'json')
+	# 	# else:
+	# 	result = send_mail_reminder.apply_async((self.id,),eta=reminder_time, serializer = 'json')
+	# 	return result.id
 
-	def save(self, *args, **kwargs):
-		"""
-		Now we need to do is ensure Django calls our 
-		schedule_reminder method every time an Reminder object is created or updated.
-		"""
-		# Check if we have scheduled a celery task for this reminder before
-		if self.task_id:
-			#Revoke that remnder if its time has changed 
-			celery_app.control.revoke(self.task_id)
+	# def post_save(self, *args, **kwargs):
+	# 	"""
+	# 	Now we need to do is ensure Django calls our 
+	# 	schedule_reminder method every time an Reminder object is created or updated.
+	# 	"""
+	# 	# Check if we have scheduled a celery task for this reminder before
+	# 	if self.task_id:
+	# 		#Revoke that remnder if its time has changed 
+	# 		celery_app.control.revoke(self.task_id)
 
-		# save our reminder, which populates self.pk,
-		# which is used in schedule_reminder
+	# 	# save our reminder, which populates self.pk,
+	# 	# which is used in schedule_reminder
 
-		# Schedule a reminder task for this reminder
-		self.task_id = self.schedule_reminder()
+	# 	# Schedule a reminder task for this reminder
+	# 	self.task_id = self.schedule_reminder()
 
-		# Save our reminder again with the task_id
-		print "Args:%s,Kwargs:%s"%(args,kwargs)
-		print self.task_id
-		super(Reminder, self).save(*args, **kwargs)
+	# 	# Save our reminder again with the task_id
+	# 	print "Args:%s,Kwargs:%s"%(args,kwargs)
+	# 	print self.task_id
+	# 	super(Reminder, self).save(*args, **kwargs)
 
 
 
