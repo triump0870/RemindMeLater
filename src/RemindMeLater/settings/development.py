@@ -11,8 +11,8 @@ TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
 print "TWILIO_ACCOUNT_SID-development:",TWILIO_ACCOUNT_SID
 # Turn off debug while imported by Celery with a workaround
 # See http://stackoverflow.com/a/4806384
-if "celery" in sys.argv[0]:
-    DEBUG = False
+# if "celery" in sys.argv[0]:
+#     DEBUG = False
 
 # Django Debug Toolbar
 INSTALLED_APPS += (
