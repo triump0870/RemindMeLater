@@ -18,16 +18,6 @@ MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 STATIC_URL = '/static/'
 
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
-# AWS_SES_REGION_NAME = 'us-east-1'  # Default is us-east-1
-# AWS_ACCESS_KEY_ID = 'AKIAJ7ESPG5PACWYTPCQ'  
-# AWS_SECRET_ACCESS_KEY = '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' 
-# AWS_ACCESS_KEY_ID = 'AKIAJ7UTJZ6IKAQNYVFQ'
-# AWS_SECRET_ACCESS_KEY = 'Al0ApHrUVonFcZi3iWZi0se5QXERCh6e0BChIVezeSY4'
-# AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
-# Must be an email authorized on Amazon SES
-DEFAULT_FROM_EMAIL = 'rohan@rohanroy.com'
-
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
     {
