@@ -21,7 +21,7 @@ class ReminderSerializer(serializers.ModelSerializer):
 		if not email and not phone_number:
 			raise serializers.ValidationError({"phone_number":"Phone number was not provided","email":"Email was not provided"})
 		if (email and phone_number):
-			raise serializers.ValidationError({"Email and Phone Number":"Provide either phone_number or email. Not both at the same time")
+			raise serializers.ValidationError({"Email and Phone Number":"Provide either phone_number or email. Not both at the same time"})
 		return data
 
 
