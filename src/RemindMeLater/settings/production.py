@@ -10,7 +10,7 @@ import raven
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-# BROKER_URL = "amqp://bdbwbjza:yYpzWPRU7azVAXCsH6PVwkxmxeFWfCzz@reindeer.rmq.cloudamqp.com/bdbwbjza"
+BROKER_URL = "amqp://bdbwbjza:yYpzWPRU7azVAXCsH6PVwkxmxeFWfCzz@reindeer.rmq.cloudamqp.com/bdbwbjza"
 # Must mention ALLOWED_HOSTS in production!
 ALLOWED_HOSTS = ["*"]
 
