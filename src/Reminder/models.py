@@ -3,6 +3,13 @@ from django.core.validators import RegexValidator
 import arrow
 from timezone_field import TimeZoneField
 from django.core.exceptions import ValidationError
+from datetime import datetime
+
+
+NOTIFICATION_CHANNEL_CHOICE = (
+	(1, "PHONE NUMBER"),
+	(2, "EMAIL"),
+	)
 
 # Create your models here.
 class Reminder(models.Model):
@@ -16,52 +23,36 @@ class Reminder(models.Model):
 	email = models.EmailField(max_length=100, blank=True, null=True)
 	completed = models.BooleanField(default=False)
 	time_zone = TimeZoneField(default='Asia/Kolkata')
+	channel = models.CharField(max_length=1,choices=NOTIFICATION_CHANNEL_CHOICE, default=2,blank=True,null=False)
 
 	def __unicode__(self):
 		return 'Reminder #{0}'.format(self.pk)
 
-	def clean(self):
-		"""Checks that appointments are not scheduled in the past"""
+	def save(self, *args, **kwargs):
+		"""
+		Now we need to do is ensure Django calls our 
+		schedule_reminder method every time an Reminder object is created or updated.
+		"""
+		email,phone_number = self.email,self.phone_number
+		choice = 2
 		date_time = datetime.combine(self.date,self.time)
 		reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
-		
+
 		if reminder_time < arrow.now():
-			raise ValidationError('You cannot schedule an reminder for the past. Please check your time and time_zone')
+			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, time and time_zone"})
+		
+		if email is not None and phone_number is not None:
+			raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
+		
+		if email is None and phone_number is None:
+			raise ValidationError({"email":"Email field was empty","phone_number":"Phone number was empty"})
 
-	# def schedule_reminder(self):
-	# 	"""
-	# 	Schedule a celery task to send the reminder
-	# 	"""
-	# 	date_time = datetime.combine(self.date,self.time)
-	# 	reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
+		if phone_number is not None:
+			choice = 1
 
-	# 	from .tasks import send_sms_reminder, send_mail_reminder
-	# 	# result=''
-	# 	# result = send_sms_reminder.apply_async((self.pk,),eta=reminder_time,serializer = 'json')
-	# 	# else:
-	# 	result = send_mail_reminder.apply_async((self.id,),eta=reminder_time, serializer = 'json')
-	# 	return result.id
-
-	# def post_save(self, *args, **kwargs):
-	# 	"""
-	# 	Now we need to do is ensure Django calls our 
-	# 	schedule_reminder method every time an Reminder object is created or updated.
-	# 	"""
-	# 	# Check if we have scheduled a celery task for this reminder before
-	# 	if self.task_id:
-	# 		#Revoke that remnder if its time has changed 
-	# 		celery_app.control.revoke(self.task_id)
-
-	# 	# save our reminder, which populates self.pk,
-	# 	# which is used in schedule_reminder
-
-	# 	# Schedule a reminder task for this reminder
-	# 	self.task_id = self.schedule_reminder()
-
-	# 	# Save our reminder again with the task_id
-	# 	print "Args:%s,Kwargs:%s"%(args,kwargs)
-	# 	print self.task_id
-	# 	super(Reminder, self).save(*args, **kwargs)
+		if choice:
+			self.channel = choice
+			super(Reminder,self).save(*args,**kwargs)
 
 
 

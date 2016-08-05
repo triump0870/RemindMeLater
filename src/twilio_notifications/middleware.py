@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-
+import django
 from twilio.rest import TwilioRestClient
 from django.core.exceptions import MiddlewareNotUsed
 import os
@@ -23,6 +23,7 @@ def load_admins_file():
 
 
 def load_twilio_config():
+    django.setup()
     twilio_account_sid = os.environ.get('TWILIO_ACCOUNT_SID')
     twilio_auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
     twilio_number = os.environ.get('TWILIO_NUMBER')
@@ -40,8 +41,7 @@ class MessageClient(object):
          twilio_auth_token) = load_twilio_config()
 
         self.twilio_number = twilio_number
-        self.twilio_client = TwilioRestClient(twilio_account_sid,
-                                              twilio_auth_token)
+        self.twilio_client = TwilioRestClient(twilio_account_sid,twilio_auth_token)
 
     def send_message(self, body, to):
         self.twilio_client.messages.create(body=body, to=to,from_=self.twilio_number)

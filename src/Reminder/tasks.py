@@ -1,18 +1,16 @@
 from __future__ import absolute_import
 
-from celery import shared_task,task
+from celery import task
 from celery.utils.log import get_task_logger
 from django.conf import settings
 from django.core.mail import send_mail
-import boto
-import arrow
 
 from .models import Reminder
-from twilio_notifications.middleware import MessageClient
+from twilio.rest import TwilioRestClient 
+ 
+logger = get_task_logger('sentry')
 
-logger = get_task_logger(__name__)
-
-@shared_task
+@task()
 def send_sms_reminder(reminder_id):
 	"""
 	Send a Reminder to phone using Twillo SMS.
@@ -25,10 +23,21 @@ def send_sms_reminder(reminder_id):
 		# The reminder we were trying to remind someone about
 		# has been deleted, so we don't need to do anything
 		return
-	reminder_time = arrow.get(reminder.time)
 	body = "{0}".format(reminder.message)
+	try:
+		client = TwilioRestClient(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN) 
+	 
+		client.messages.create(
+			to=reminder.phone_number, 
+			from_=settings.TWILIO_NUMBER, 
+			body=body,  
+		)
+		logger.info("SMS Successfully send")
 
-	MessageClient.send_message(body,"+919148912120")
+		return "SMS Successfully send"
+	except Exception as e:
+		logger.info("There is some problem while sending SMS\n",e)
+		return e 
 
 
 @task()
@@ -41,11 +50,10 @@ def send_mail_reminder(reminder_id):
 		return
 	body = "{0}".format(reminder.message)
 	try:
-		send_mail("[Remind Me Later] Notification",body,settings.DEFAULT_FROM_EMAIL,[reminder.email])
+		send_mail("[Remind Me Later] App Notification",body,settings.DEFAULT_FROM_EMAIL,[reminder.email])
 		logger.info("Email Successfully send")
 		return "Email Successfully send"
 	except Exception as e:
-		logger.info("There is some problem while sending email")
-		print e
+		logger.info("There is some problem while sending email\n",e)
 		return e
 

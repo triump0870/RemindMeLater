@@ -15,23 +15,19 @@ class ReminderSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError({"time":"Can't place reminder in the past"})
 		return time
 
-	# def validate(self, data):
-	# 	print "Date:",data
-	# 	if 'time_zone' not in data:
-	# 		time_zone = 'local'
-	# 	date_time = datetime.combine(data['date'],data['time'])
-	# 	print "DAte_time:",date_time
 
-	# 	date = arrow.get(date_time).replace(tzinfo=time_zone)
-	# 	if date < arrow.now():
-	# 		raise serializers.ValidationError({"date":"Can't place reminder in the past")
-	# 	print "date:",date
-	# 	return data
+	def validate(self, data):
+		phone_number,email = data['phone_number'],data['email']
+		if not email and not phone_number:
+			raise serializers.ValidationError({"phone_number":"Phone number was not provided","email":"Email was not provided"})
+		if (email and phone_number):
+			raise serializers.ValidationError({"Email and Phone Number":"Provide either phone_number or email. Not both at the same time")
+		return data
 
 
 	class Meta:
 		model = Reminder
-		fields = ('id','task_id','message','phone_number', 'email', 'date','time','completed')
+		fields = ('id','task_id','message','phone_number', 'email', 'date','time','completed','channel')
 
 	
 
