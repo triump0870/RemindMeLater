@@ -8,8 +8,8 @@ from raven.contrib.celery import register_signal, register_logger_signal
 import environ
 env = environ.Env()
 
-RAVEN_CLIENT_SECRET=env(RAVEN_CLIENT_SECRET)
-RAVEN_CLIENT_ID=env(RAVEN_CLIENT_SECRET)
+RAVEN_CLIENT_SECRET=env("RAVEN_CLIENT_SECRET")
+RAVEN_CLIENT_ID=env("RAVEN_CLIENT_SECRET")
 SENTRY_LINK = "https://"+RAVEN_CLIENT_ID+":"+RAVEN_CLIENT_SECRET+"@app.getsentry.com/89988"
 class Celery(celery.Celery):
 
