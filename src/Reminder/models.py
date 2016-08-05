@@ -4,7 +4,10 @@ import arrow
 from timezone_field import TimeZoneField
 from django.core.exceptions import ValidationError
 from datetime import datetime
+import logging
 
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
 
 
 NOTIFICATION_CHANNEL_CHOICE = (
@@ -39,7 +42,7 @@ class Reminder(models.Model):
 		date_time = datetime.combine(self.date,self.time)
 		reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
 
-		print "Email:%s,phone_number:%s"%(self.email,self.phone_number)
+		logger.warning("Email:%s,phone_number:%s"%(self.email,self.phone_number)
 		if reminder_time < arrow.now():
 			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, 	time and time_zone"})
 		
