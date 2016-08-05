@@ -28,19 +28,16 @@ class Reminder(models.Model):
 	def __unicode__(self):
 		return 'Reminder #{0}'.format(self.pk)
 
-	def clean(self):
-		data = self.cleaned_data
-		if data['phone_number'] == u'':
-			data['phone_number'] = None
-		if data['email'] == u'':
-			data['email'] = None
-		return data
-
 	def save(self, *args, **kwargs):
 		"""
 		Now we need to do is ensure Django calls our 
 		schedule_reminder method every time an Reminder object is created or updated.
 		"""
+		if self.email == u'':
+			self.email = None
+		if self.phone_number == u'':
+			self.phone_number = None
+			
 		email,phone_number = self.email,self.phone_number
 		choice = 2
 		date_time = datetime.combine(self.date,self.time)
@@ -49,11 +46,11 @@ class Reminder(models.Model):
 		if reminder_time < arrow.now():
 			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, 	time and time_zone"})
 		
-		# if email is not None  and phone_number is not None :
-		# 	raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
+		if email is not None  and phone_number is not None :
+			raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
 		
-		# if email is None and phone_number is None:
-		# 	raise ValidationError({"email":"Email field was empty","phone_number":"Phone number was empty"})
+		if email is None and phone_number is None:
+			raise ValidationError({"email":"Email field was empty","phone_number":"Phone number was empty"})
 
 		if phone_number is not None:
 			choice = 1
