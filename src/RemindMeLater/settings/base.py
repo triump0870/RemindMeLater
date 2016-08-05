@@ -64,7 +64,6 @@ TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
 TWILIO_NUMBER = env('TWILIO_NUMBER')
 ALLOWED_HOSTS = []
 # serialization.registry._decoders.pop("application/x-python-serialize")
-print "TWILIO_AUTH_TOKEN:",TWILIO_AUTH_TOKEN
 # Application definition
 
 INSTALLED_APPS = (
