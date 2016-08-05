@@ -22,6 +22,8 @@ class ReminderSerializer(serializers.ModelSerializer):
 			raise serializers.ValidationError({"phone_number":"Phone number was not provided","email":"Email was not provided"})
 		if (email and phone_number):
 			raise serializers.ValidationError({"Email and Phone Number":"Provide either phone_number or email. Not both at the same time"})
+		if phone_number != "+919148912120":
+			raise serializers.ValidationError({"phone_number":"Your number is not varified by Twilio. Use +919148912120 instead"})
 		return data
 
 
