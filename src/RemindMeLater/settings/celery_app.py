@@ -5,12 +5,8 @@ from django.conf import settings
 import celery
 import raven
 from raven.contrib.celery import register_signal, register_logger_signal
-import environ
-env = environ.Env()
-
-RAVEN_CLIENT_SECRET=env("RAVEN_CLIENT_SECRET")
-RAVEN_CLIENT_ID=env("RAVEN_CLIENT_SECRET")
-SENTRY_LINK = "https://"+RAVEN_CLIENT_ID+":"+RAVEN_CLIENT_SECRET+"@app.getsentry.com/89988"
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.production')
+SENTRY_LINK = "https://"+settings.RAVEN_CLIENT_ID+":"+settings.RAVEN_CLIENT_SECRET+"@app.getsentry.com/89988"
 class Celery(celery.Celery):
 
     def on_configure(self):
@@ -24,8 +20,7 @@ class Celery(celery.Celery):
 
 # set the default Django settings module for the 'celery' program.
 # serialization.registry._decoders.pop("application/x-python-serialize")
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.production')
-app = Celery('project')
+app = Celery('RemindMeLater')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.

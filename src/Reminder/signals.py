@@ -2,11 +2,11 @@ from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from django.conf import settings
-import logging
 from .models import Reminder
 from datetime import datetime
 import arrow
-logger = logging.getLogger("sentry")
+from celery.utils.log import get_task_logger
+logger = get_task_logger(__name__)
 
 @receiver(post_save, sender=Reminder)
 def send_email_signal(sender,instance, created, **kwargs):
@@ -20,9 +20,13 @@ def send_email_signal(sender,instance, created, **kwargs):
 	result = ""
 	if self.channel == 1:
 		result = send_sms_reminder.apply_async((self.id,),eta=reminder_time)
+		logger.info("SMS Result:",result)
+		print "SMS result:",result
 
 	elif self.channel == 2:
 		result = send_mail_reminder.apply_async((self.id,),eta=reminder_time, serializer = 'json')
+		logger.info("Email Result:",result)
+		print "Email result:",result
 
 	else:
 		raise ValidationError("Neither email nor phone_number was provided")

@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from .models import Reminder
 from twilio.rest import TwilioRestClient 
  
-logger = get_task_logger('sentry')
+logger = get_task_logger(__name__)
 
 @task()
 def send_sms_reminder(reminder_id):
@@ -32,11 +32,8 @@ def send_sms_reminder(reminder_id):
 			from_=settings.TWILIO_NUMBER, 
 			body=body,  
 		)
-		reminder.completed = True
-		reminder.save()
 		logger.info("SMS Successfully send")
-
-		return "SMS Successfully send"
+		return Reminder.objects.filter(id=reminder_id).update(completed=True)
 	except Exception as e:
 		logger.info("There is some problem while sending SMS\n",e)
 		return e 
@@ -53,10 +50,9 @@ def send_mail_reminder(reminder_id):
 	body = "{0}".format(reminder.message)
 	try:
 		send_mail("[Remind Me Later] App Notification",body,settings.DEFAULT_FROM_EMAIL,[reminder.email])
-		reminder.completed = True
-		reminder.save()
+		
 		logger.info("Email Successfully send")
-		return "Email Successfully send"
+		return Reminder.objects.filter(id=reminder_id).update(completed=True)
 	except Exception as e:
 		logger.info("There is some problem while sending email\n",e)
 		return e
