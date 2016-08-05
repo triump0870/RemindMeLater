@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 from .models import Reminder
 from twilio.rest import TwilioRestClient 
  
-logger = get_task_logger('sentry')
+logger = get_task_logger(__name__)
 
 @task()
 def send_sms_reminder(reminder_id):
@@ -33,7 +33,6 @@ def send_sms_reminder(reminder_id):
 			body=body,  
 		)
 		logger.info("SMS Successfully send")
-
 		return Reminder.objects.filter(id=reminder_id).update(completed=True)
 	except Exception as e:
 		logger.info("There is some problem while sending SMS\n",e)

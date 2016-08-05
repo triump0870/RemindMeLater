@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'authtools',
     'crispy_forms',
     'easy_thumbnails',
+    'coverage',
 
     'profiles',
     'accounts',
@@ -89,6 +90,7 @@ INSTALLED_APPS = (
     'Api',
     'Reminder',
     'timezone_field',
+
 )
 
 MIDDLEWARE_CLASSES = (
