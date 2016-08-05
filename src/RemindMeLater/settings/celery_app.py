@@ -7,11 +7,14 @@ import raven
 from raven.contrib.celery import register_signal, register_logger_signal
 import environ
 env = environ.Env()
-RAVEN_CLIENT=env(RAVEN_CLIENT)
+
+RAVEN_CLIENT_SECRET=env(RAVEN_CLIENT_SECRET)
+RAVEN_CLIENT_ID=env(RAVEN_CLIENT_SECRET)
+SENTRY_LINK = "https://"+RAVEN_CLIENT_ID+":"+RAVEN_CLIENT_SECRET+"@app.getsentry.com/89988"
 class Celery(celery.Celery):
 
     def on_configure(self):
-        client = raven.Client(RAVEN_CLIENT)
+        client = raven.Client(SENTRY_LINK)
 
         # register a custom filter to filter out duplicate logs
         register_logger_signal(client)
