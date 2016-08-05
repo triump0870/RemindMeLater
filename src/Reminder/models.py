@@ -4,10 +4,6 @@ import arrow
 from timezone_field import TimeZoneField
 from django.core.exceptions import ValidationError
 from datetime import datetime
-import logging
-
-# Get an instance of a logger
-logger = logging.getLogger(__name__)
 
 
 NOTIFICATION_CHANNEL_CHOICE = (
@@ -53,11 +49,11 @@ class Reminder(models.Model):
 		if reminder_time < arrow.now():
 			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, 	time and time_zone"})
 		
-		if email is not None  and phone_number is not None :
-			raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
+		# if email is not None  and phone_number is not None :
+		# 	raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
 		
-		if email is None and phone_number is None:
-			raise ValidationError({"email":"Email field was empty","phone_number":"Phone number was empty"})
+		# if email is None and phone_number is None:
+		# 	raise ValidationError({"email":"Email field was empty","phone_number":"Phone number was empty"})
 
 		if phone_number is not None:
 			choice = 1
