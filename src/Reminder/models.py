@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from datetime import datetime
 
 
+
 NOTIFICATION_CHANNEL_CHOICE = (
 	(1, "PHONE NUMBER"),
 	(2, "EMAIL"),
@@ -38,8 +39,9 @@ class Reminder(models.Model):
 		date_time = datetime.combine(self.date,self.time)
 		reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
 
+		print "Email:%s,phone_number:%s"%(self.email,self.phone_number)
 		if reminder_time < arrow.now():
-			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, time and time_zone"})
+			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, 	time and time_zone"})
 		
 		if email is not None and phone_number is not None:
 			raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
