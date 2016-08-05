@@ -5,12 +5,13 @@ from django.conf import settings
 import celery
 import raven
 from raven.contrib.celery import register_signal, register_logger_signal
-
-
+import environ
+env = environ.Env()
+RAVEN_CLIENT=env(RAVEN_CLIENT)
 class Celery(celery.Celery):
 
     def on_configure(self):
-        client = raven.Client('https://67f46cd6b820412e8f0d4d94cc832486:36fba09345934d469d45b0b298e7e87b@app.getsentry.com/89988')
+        client = raven.Client(RAVEN_CLIENT)
 
         # register a custom filter to filter out duplicate logs
         register_logger_signal(client)
