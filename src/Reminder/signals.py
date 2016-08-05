@@ -26,10 +26,7 @@ def send_email_signal(sender,instance, created, **kwargs):
 	elif self.channel == 2:
 		result = send_mail_reminder.apply_async((self.id,),eta=reminder_time, serializer = 'json')
 		logger.info("Email Result:",result)
-		print "Email result:",result
-
-	else:
-		raise ValidationError("Neither email nor phone_number was provided")
+		print "Email result:",result.state
 
 	if result.id:
 		instance.task_id = result.id
