@@ -32,6 +32,14 @@ class Reminder(models.Model):
 	def __unicode__(self):
 		return 'Reminder #{0}'.format(self.pk)
 
+	def clean(self):
+		data = self.cleaned_data
+		if data['phone_number'] == u'':
+			data['phone_number'] = None
+		if data['email'] == u'':
+			data['email'] = None
+		return data
+
 	def save(self, *args, **kwargs):
 		"""
 		Now we need to do is ensure Django calls our 
@@ -42,11 +50,10 @@ class Reminder(models.Model):
 		date_time = datetime.combine(self.date,self.time)
 		reminder_time = arrow.get(date_time).replace(tzinfo=self.time_zone.zone)
 
-		logger.warning("Email:%s,phone_number:%s"%(self.email,self.phone_number)
 		if reminder_time < arrow.now():
 			raise ValidationError({"DateTime Error":"You cannot schedule an reminder for the past. Please check you date, 	time and time_zone"})
 		
-		if email is not None and phone_number is not None:
+		if email is not None  and phone_number is not None :
 			raise ValidationError({"Email and Phone Number Error":"You can't provide email and phone_number both at the same time"})
 		
 		if email is None and phone_number is None:
