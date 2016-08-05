@@ -37,7 +37,9 @@ class Reminder(models.Model):
 			self.email = None
 		if self.phone_number == u'':
 			self.phone_number = None
-			
+		if self.phone_number != u'+919148912120":
+			raise ValidationError(({"phone_number":"Your number is not varified by Twilio. Use +919148912120 instead"})
+				
 		email,phone_number = self.email,self.phone_number
 		choice = 2
 		date_time = datetime.combine(self.date,self.time)
