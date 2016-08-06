@@ -66,6 +66,7 @@ TWILIO_NUMBER = env('TWILIO_NUMBER')
 RAVEN_CLIENT_SECRET = env("RAVEN_CLIENT_SECRET")
 RAVEN_CLIENT_ID = env("RAVEN_CLIENT_SECRET")
 ALLOWED_HOSTS = []
+APPEND_SLASH=False
 # serialization.registry._decoders.pop("application/x-python-serialize")
 # Application definition
 

@@ -20,11 +20,14 @@ def reminder_list(request, format=None):
 		return Response(serializer.data)
 
 	if request.method == 'POST':
+		print "Request data:",request.data
 		serializer = ReminderSerializer(data=request.data)
 		if serializer.is_valid():
+			print "Yes valid"
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		else:
+			print "not valid"
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','PUT','DELETE'])
@@ -43,6 +46,7 @@ def reminder_detail(request, pk, format=None):
 		return Response(serializer.data)
 
 	elif request.method == 'PUT':
+		# data = request.data.update({"completed":reminder.completed,"task_id":reminder.task_id})
 		serializer = ReminderSerializer(reminder, data=request.data)
 		if serializer.is_valid():
 			serializer.save()

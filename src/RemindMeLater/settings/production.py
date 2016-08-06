@@ -10,7 +10,8 @@ import raven
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-BROKER_URL=env('BROKER_URL')
+# BROKER_URL=env('BROKER_URL')
+# CELERY_RESULT_BACKEND=env('CELERY_RESULT_BACKEND')
 EMAIL_HOST_USER=env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD=env("EMAIL_HOST_PASSWORD")
 # Must mention ALLOWED_HOSTS in production!

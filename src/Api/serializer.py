@@ -4,7 +4,6 @@ import arrow
 from datetime import datetime
 import re
 class ReminderSerializer(serializers.ModelSerializer):
-	# email_id = serializers.EmailField()
 	def validate_date(self,date):
 		if date < datetime.now().date():
 			raise serializers.ValidationError({"date":"Can't place reminder in the past"})
@@ -16,6 +15,7 @@ class ReminderSerializer(serializers.ModelSerializer):
 		return time
 
 	def validate(self, data):
+		print "HEre in serilaizer",data
 		phone_number,email = data['phone_number'],data['email']
 		a=re.compile('^\+1?\d{12,15}$')
 		phone = a.match(phone_number)
@@ -24,8 +24,8 @@ class ReminderSerializer(serializers.ModelSerializer):
 		
 		if not email and not phone_number:
 			raise serializers.ValidationError({"phone_number":"Phone number was not provided","email":"Email was not provided"})
+		
 		return data
-
 
 	class Meta:
 		model = Reminder
