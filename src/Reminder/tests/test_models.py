@@ -35,8 +35,9 @@ class ReminderTest(TestCase):
 		print "Positive test passed"
 
 	def test_reminder_email_phone_number_both_present(self):
-		with self.assertRaises(ValidationError):
-			obj = self.create_reminder(self.message,self.date,self.positive_time,self.email,self.phone_number)
+		obj = self.create_reminder(self.message,self.date,self.positive_time,self.email,self.phone_number)
+		self.assertTrue(obj.email is not None)
+		self.assertTrue(obj.phone_number is not None)
 		print "Email and phone number both present test passed"
 
 	def test_reminder_email_phone_number_both_not_present(self):
