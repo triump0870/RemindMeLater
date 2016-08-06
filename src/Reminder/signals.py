@@ -18,12 +18,12 @@ def send_email_signal(sender,instance, created, **kwargs):
 
 	from .tasks import send_sms_reminder, send_mail_reminder
 	result = ""
-	if self.channel == 1:
+	if self.phone_number is not None:
 		result = send_sms_reminder.apply_async((self.id,),eta=reminder_time)
 		logger.info("SMS Result:",result)
-		print "SMS result:",result
+		print "SMS result:",result.state
 
-	elif self.channel == 2:
+	if self.email is not None:
 		result = send_mail_reminder.apply_async((self.id,),eta=reminder_time, serializer = 'json')
 		logger.info("Email Result:",result)
 		print "Email result:",result.state
