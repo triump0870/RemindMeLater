@@ -20,7 +20,7 @@ class Celery(celery.Celery):
 
 # set the default Django settings module for the 'celery' program.
 # serialization.registry._decoders.pop("application/x-python-serialize")
-app = Celery('RemindMeLater',broker='amqp://guest@localhost//', backend='amqp')
+app = Celery('RemindMeLater')
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
