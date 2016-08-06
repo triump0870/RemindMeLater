@@ -10,3 +10,4 @@ git+https://github.com/pinax/django-mailer
 seacucumber
 supervisor
 django-smtp-ssl
+coverage
