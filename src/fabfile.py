@@ -20,5 +20,6 @@ def heroku():
 	local('git pull origin master --commit')
 	local('git merge %s'%branch_name)
 	local('git push origin master')
+	local('heroku run python src/manage.py migrate')
 	local('git checkout %s'%branch_name)
 	print "Merging done"
