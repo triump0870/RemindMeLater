@@ -1,7 +1,9 @@
+import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-import logging
+
 from . import models
 
 logger = logging.getLogger("project")

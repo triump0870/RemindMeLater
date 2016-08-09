@@ -1,19 +1,22 @@
 # In production set the environment variable like this:
 #    DJANGO_SETTINGS_MODULE=RemindMeLater.settings.production
-from .base import *             # NOQA
+import os
 import logging.config
 import dj_database_url
-
 # Sentry/ Raven settings
 import raven
+
+from .base import *             # NOQA
+
 
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-BROKER_URL=env('CLOUDAMQP_URL')
+BROKER_URL=os.getenv('CLOUDAMQP_URL','amqp://')
 CELERY_RESULT_BACKEND=env('CELERY_RESULT_BACKEND')
 EMAIL_HOST_USER=env("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD=env("EMAIL_HOST_PASSWORD")
+
 # Must mention ALLOWED_HOSTS in production!
 ALLOWED_HOSTS = ["*"]
 

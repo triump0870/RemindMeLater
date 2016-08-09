@@ -1,8 +1,11 @@
 from __future__ import unicode_literals
+
+from braces.views import LoginRequiredMixin
+
 from django.views import generic
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
-from braces.views import LoginRequiredMixin
+
 from . import forms
 from . import models
 

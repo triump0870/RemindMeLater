@@ -1,12 +1,16 @@
 from __future__ import absolute_import
+
 import os
-from django.conf import settings
-# from kombu import serialization
 import celery
 import raven
 from raven.contrib.celery import register_signal, register_logger_signal
+
+from django.conf import settings
+# from kombu import serialization
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'RemindMeLater.settings.production')
 SENTRY_LINK = "https://"+settings.RAVEN_CLIENT_ID+":"+settings.RAVEN_CLIENT_SECRET+"@app.getsentry.com/89988"
+
 class Celery(celery.Celery):
 
     def on_configure(self):

@@ -1,7 +1,8 @@
-from django.views import generic
 import logging
 
-logger = logging.getLogger("raven")
+from django.views import generic
+
+logger = logging.getLogger(__name__)
 logger.info("Reminder App Started")
 
 class HomePage(generic.TemplateView):

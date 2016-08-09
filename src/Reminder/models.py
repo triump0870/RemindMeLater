@@ -1,9 +1,10 @@
+import arrow
+from datetime import datetime
+from timezone_field import TimeZoneField
+
 from django.db import models
 from django.core.validators import RegexValidator
-import arrow
-from timezone_field import TimeZoneField
 from django.core.exceptions import ValidationError
-from datetime import datetime
 
 # Create your models here.
 class Reminder(models.Model):
@@ -42,7 +43,7 @@ class Reminder(models.Model):
 			
 			if email is None and phone_number is None:
 				raise ValidationError({"email":"Email field was empty","phone_number":"Phone number was empty"})
-
+			
 			super(Reminder,self).save(*args,**kwargs)
 
 

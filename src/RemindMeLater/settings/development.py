@@ -1,6 +1,8 @@
-from .base import *             # NOQA
 import sys
 import logging.config
+
+from .base import *             
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
@@ -10,8 +12,9 @@ STATIC_ROOT = join(dirname(BASE_DIR), 'staticfiles')
 TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
 # Turn off debug while imported by Celery with a workaround
 # See http://stackoverflow.com/a/4806384
-# if "celery" in sys.argv[0]:
-#     DEBUG = False
+if "celery" in sys.argv[0]:
+    DEBUG = False
+    
 BROKER_URL = 'amqp://'
 
 # Django Debug Toolbar

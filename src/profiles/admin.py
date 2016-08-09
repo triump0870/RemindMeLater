@@ -1,9 +1,12 @@
 from __future__ import unicode_literals
-from django.contrib import admin
+
 from authtools.admin import NamedUserAdmin
-from .models import Profile
+
+from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
+
+from .models import Profile
 
 User = get_user_model()
 

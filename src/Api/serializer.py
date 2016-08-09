@@ -1,8 +1,11 @@
-from rest_framework import serializers
-from Reminder.models import Reminder
-import arrow
 from datetime import datetime
+import arrow
 import re
+
+from rest_framework import serializers
+
+from Reminder.models import Reminder
+
 class ReminderSerializer(serializers.ModelSerializer):
 	def validate_date(self,date):
 		if date < datetime.now().date():
@@ -15,10 +18,10 @@ class ReminderSerializer(serializers.ModelSerializer):
 		return time
 
 	def validate(self, data):
-		print "HEre in serilaizer",data
 		phone_number,email = data['phone_number'],data['email']
-		a=re.compile('^\+1?\d{12,15}$')
-		phone = a.match(phone_number)
+		regex =re.compile('^\+1?\d{12,15}$')
+		phone = regex.match(phone_number)
+		
 		if phone is None:
 			raise serializers.ValidationError({"phone_number":"Phone number must be entered in the format: '+919876543210'. Up to 15 digits allowed."})
 		

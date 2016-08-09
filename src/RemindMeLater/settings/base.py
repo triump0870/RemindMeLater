@@ -7,10 +7,13 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-from django.core.urlresolvers import reverse_lazy
-from os.path import dirname, join, exists, abspath
-from .celeryconfig import *
 from kombu import serialization
+from os.path import dirname, join, exists, abspath
+
+from django.core.urlresolvers import reverse_lazy
+
+from .celeryconfig import *
+
 # Build paths inside the project like this: join(BASE_DIR, "directory")
 BASE_DIR = dirname(dirname(dirname(__file__)))
 STATICFILES_DIRS = [join(BASE_DIR, 'static')]

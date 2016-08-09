@@ -5,6 +5,7 @@ from rest_framework import permissions
 
 from Reminder.models import Reminder
 from .serializer import ReminderSerializer
+
 # Create your views here.
 
 @api_view(['GET','POST'])
@@ -20,14 +21,11 @@ def reminder_list(request, format=None):
 		return Response(serializer.data)
 
 	if request.method == 'POST':
-		print "Request data:",request.data
 		serializer = ReminderSerializer(data=request.data)
 		if serializer.is_valid():
-			print "Yes valid"
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		else:
-			print "not valid"
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','PUT','DELETE'])
