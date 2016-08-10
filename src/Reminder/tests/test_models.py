@@ -35,6 +35,7 @@ class ReminderTest(TestCase):
 		self.assertEqual(obj.__unicode__(),'Reminder #{0}'.format(obj.pk))
 		self.assertTrue(obj.phone_number is None)
 		self.assertTrue(obj.email is not None)
+		self.assertTrue(obj.task_id is not None)
 		logger.info("Positive test passed")
 
 	def test_reminder_email_phone_number_both_present(self):
