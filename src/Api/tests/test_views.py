@@ -39,6 +39,7 @@ if sys.version_info[:2] >= (3, 4):
 else:
     JSON_ERROR = 'JSON parse error - No JSON object could be decoded'
 
+
 class APITestCase(TestCase):
     """
     Testing the APIs
@@ -75,7 +76,7 @@ class APITestCase(TestCase):
         self.assertEqual(response.data['email'][0],"Enter a valid email address.")
 
     def test_reminder_with_date_in_past(self):
-    	response = self.client.post('/apis/reminders',json.dumps({"message":"Hehere","date":NEGATIVE_DATE,"time":POSITIVE_TIME,"email":EMAIL}),content_type="application/json")
+    	response = self.client.post('/apis/reminders',{"message":"Hehere","date":NEGATIVE_DATE,"time":POSITIVE_TIME,"email":EMAIL})
         serializer = ReminderSerializer(data=response.data)
     	self.assertEqual(response.status_code, 400)
     	self.assertEqual(response.data['date']['date'],"Can't place reminder in the past")
