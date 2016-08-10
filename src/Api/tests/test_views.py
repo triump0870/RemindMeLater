@@ -27,17 +27,12 @@ NOW = arrow.now()
 POSITIVE_DATE =  NOW.date().isoformat()
 NEGATIVE_DATE = (NOW+DELTA(-24*60)).date().isoformat()
 POSITIVE_TIME = (NOW+DELTA(10)).time().isoformat()
-NEGATIVE_TIME = (NOW + DELTA(-10)).time().isoformat()
+NEGATIVE_TIME = (NOW + DELTA(-1)).time().isoformat()
 MESSAGE = "This is a test"
 EMAIL = "b4you0870@gmail.com"
 PHONE_NUMBER = "+919148912120"
 
 factory = APIRequestFactory()
-
-if sys.version_info[:2] >= (3, 4):
-    JSON_ERROR = 'JSON parse error - Expecting value:'
-else:
-    JSON_ERROR = 'JSON parse error - No JSON object could be decoded'
 
 
 class APITestCase(TestCase):
@@ -46,7 +41,7 @@ class APITestCase(TestCase):
     """
 
     def test_reminder_list(self):
-        response = self.client.get('/apis/reminders', follow=True)
+        response = self.client.get('/apis/reminders',follow=True)
         self.assertEqual(response.status_code, 200)
 
     def test_reminder_with_blank_fields(self):
@@ -93,3 +88,4 @@ class APITestCase(TestCase):
         serializer = ReminderSerializer(data=response.data)
         self.assertEqual(response.status_code, 201)
         self.assertTrue(serializer.is_valid())
+        self.assertIn('task_id',response.data)
