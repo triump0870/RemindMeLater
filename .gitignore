@@ -63,4 +63,4 @@ staticfiles/
 src/manage.py
 src/RemindMeLater/settings/development.py
 requirements/development.txt
-.coverage
+src/.coverage
