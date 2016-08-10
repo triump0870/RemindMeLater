@@ -5,13 +5,14 @@ from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
 from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 from authtools import forms as authtoolsforms
 
-from django.contrib.auth.forms import AuthenticationForm
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import forms as authforms
 from django.core.urlresolvers import reverse
 
 
 class LoginForm(AuthenticationForm):
+
     remember_me = forms.BooleanField(required=False, initial=False)
 
     def __init__(self, *args, **kwargs):
@@ -27,7 +28,7 @@ class LoginForm(AuthenticationForm):
             Field('remember_me'),
             Submit('sign_in', 'Log in',
                    css_class="btn btn-lg btn-primary btn-block"),
-            )
+        )
 
 
 class SignupForm(authtoolsforms.UserCreationForm):
@@ -43,7 +44,7 @@ class SignupForm(authtoolsforms.UserCreationForm):
             Field('password1', placeholder="Enter Password"),
             Field('password2', placeholder="Re-enter Password"),
             Submit('sign_up', 'Sign up', css_class="btn-warning"),
-            )
+        )
 
 
 class PasswordChangeForm(authforms.PasswordChangeForm):
@@ -58,7 +59,7 @@ class PasswordChangeForm(authforms.PasswordChangeForm):
             Field('new_password1', placeholder="Enter new password"),
             Field('new_password2', placeholder="Enter new password (again)"),
             Submit('pass_change', 'Change Password', css_class="btn-warning"),
-            )
+        )
 
 
 class PasswordResetForm(authtoolsforms.FriendlyPasswordResetForm):
@@ -71,10 +72,11 @@ class PasswordResetForm(authtoolsforms.FriendlyPasswordResetForm):
             Field('email', placeholder="Enter email",
                   autofocus=""),
             Submit('pass_reset', 'Reset Password', css_class="btn-warning"),
-            )
+        )
 
 
 class SetPasswordForm(authforms.SetPasswordForm):
+
     def __init__(self, *args, **kwargs):
         super(SetPasswordForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -84,4 +86,4 @@ class SetPasswordForm(authforms.SetPasswordForm):
                   autofocus=""),
             Field('new_password2', placeholder="Enter new password (again)"),
             Submit('pass_change', 'Change Password', css_class="btn-warning"),
-            )
+        )

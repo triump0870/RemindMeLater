@@ -7,13 +7,17 @@ For more information on this file, see
 https://docs.djangoproject.com/en/dev/howto/deployment/wsgi/
 """
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "RemindMeLater.settings.production")
+os.environ.setdefault(
+    "DJANGO_SETTINGS_MODULE",
+    "RemindMeLater.settings.production")
 # Wrap werkzeug debugger if DEBUG is on
 from django.conf import settings
 
 if settings.DEBUG:
     from django.core.wsgi import get_wsgi_application
+    
     application = get_wsgi_application()
+    
     try:
         import django.views.debug
         import six
@@ -24,8 +28,10 @@ if settings.DEBUG:
 
         django.views.debug.technical_500_response = null_technical_500_response
         application = DebuggedApplication(application, evalex=True)
+    
     except ImportError:
         pass
+
 else:
     from django.core.wsgi import get_wsgi_application
     from dj_static import Cling

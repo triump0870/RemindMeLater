@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 
 class PageOpenTestCase(TestCase):
+
     def test_home_page_exists(self):
         url = reverse('home')
         r = self.client.get(url)
@@ -21,6 +22,7 @@ User = get_user_model()
 
 
 class ProfileTestCase(TestCase):
+
     def test_profiles_created(self):
         u = User.objects.create_user(email="dummy@example.com")
         self.assertIsNotNone(u.profile)

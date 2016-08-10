@@ -7,7 +7,7 @@ CELERY_ENABLE_UTC = True
 CELERY_SEND_TASK_ERROR_EMAILS = True
 SERVER_EMAIL = 'rohan@rohanroy.com'
 ADMINS = [
-        ('Rohan', 'rohan@rohanroy.com')
+    ('Rohan', 'rohan@rohanroy.com')
 ]
 EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 DEFAULT_FROM_EMAIL = 'rohan@rohanroy.com'

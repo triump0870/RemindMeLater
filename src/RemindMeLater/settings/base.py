@@ -20,7 +20,7 @@ STATICFILES_DIRS = [join(BASE_DIR, 'static')]
 MEDIA_ROOT = join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
 STATIC_URL = '/static/'
-CELERYD_STATE_DB = join(BASE_DIR,"celery_worker_state")
+CELERYD_STATE_DB = join(BASE_DIR, "celery_worker_state")
 
 # Use Django templates using the new Django 1.8 TEMPLATES settings
 TEMPLATES = [
@@ -69,7 +69,7 @@ TWILIO_NUMBER = env('TWILIO_NUMBER')
 RAVEN_CLIENT_SECRET = env("RAVEN_CLIENT_SECRET")
 RAVEN_CLIENT_ID = env("RAVEN_CLIENT_SECRET")
 ALLOWED_HOSTS = []
-APPEND_SLASH=False
+APPEND_SLASH = False
 # serialization.registry._decoders.pop("application/x-python-serialize")
 # Application definition
 
@@ -86,14 +86,14 @@ INSTALLED_APPS = (
     'crispy_forms',
     'easy_thumbnails',
     'coverage',
+    'raven.contrib.django.raven_compat',
+    'rest_framework',
+    'timezone_field',
 
     'profiles',
     'accounts',
-    'raven.contrib.django.raven_compat',
-    'rest_framework',
     'Api',
     'Reminder',
-    'timezone_field',
 
 )
 

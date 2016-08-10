@@ -20,7 +20,7 @@ class UserForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field('name'),
-            )
+        )
 
     class Meta:
         model = User
@@ -37,7 +37,7 @@ class ProfileForm(forms.ModelForm):
             Field('picture'),
             Field('bio'),
             Submit('update', 'Update', css_class="btn-success"),
-            )
+        )
 
     class Meta:
         model = models.Profile

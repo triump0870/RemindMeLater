@@ -12,11 +12,10 @@ from .base import *             # NOQA
 # For security and performance reasons, DEBUG is turned off
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
-BROKER_URL=os.getenv('CLOUDAMQP_URL','amqp://')
-CELERY_RESULT_BACKEND=env('CELERY_RESULT_BACKEND')
-EMAIL_HOST_USER=env("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD=env("EMAIL_HOST_PASSWORD")
-
+BROKER_URL = os.getenv('CLOUDAMQP_URL', 'amqp://')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 # Must mention ALLOWED_HOSTS in production!
 ALLOWED_HOSTS = ["*"]
 
@@ -26,13 +25,13 @@ loaders = [
         'django.template.loaders.filesystem.Loader',
         'django.template.loaders.app_directories.Loader',
     ]),
-]   
+]
 
 TEMPLATES[0]['OPTIONS'].update({"loaders": loaders})
 TEMPLATES[0].update({"APP_DIRS": False})
 
 # Define STATIC_ROOT for the collectstatic command
-STATIC_ROOT = join(BASE_DIR,'..','site','static')
+STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
@@ -73,7 +72,8 @@ LOGGING = {
     },
     'handlers': {
         'sentry': {
-            'level': 'WARNING', # To capture more than ERROR, change to WARNING, INFO, etc.
+            # To capture more than ERROR, change to WARNING, INFO, etc.
+            'level': 'WARNING',
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             'tags': {'custom-tag': 'x'},
         },
@@ -96,27 +96,27 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'django.request': {
-            'handlers': ['proj_log_file','sentry'],
+            'handlers': ['proj_log_file', 'sentry'],
             'level': 'ERROR',
             'propagate': True,
         },
         'django.db.backends': {
             'level': 'ERROR',
-            'handlers': ['console','sentry'],
+            'handlers': ['console', 'sentry'],
             'propagate': False,
         },
         'raven': {
             'level': 'DEBUG',
-            'handlers': ['console','sentry'],
+            'handlers': ['console', 'sentry'],
             'propagate': False,
         },
         'sentry.errors': {
             'level': 'DEBUG',
-            'handlers': ['console','sentry'],
+            'handlers': ['console', 'sentry'],
             'propagate': False,
         },
         '': {
-            'handlers': ['proj_log_file','console'],
+            'handlers': ['proj_log_file', 'console'],
             'level': 'WARNING',
             'propagate': True,
         },
