@@ -64,3 +64,6 @@ src/manage.py
 src/RemindMeLater/settings/development.py
 requirements/development.txt
 src/.coverage
+
+logs/
+src/logs
