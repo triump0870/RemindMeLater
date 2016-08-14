@@ -9,13 +9,6 @@ from datetime import datetime,time,timedelta
 from django.test import TestCase
 from django.core.exceptions import ValidationError 
 
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework.settings import api_settings
-from rest_framework.test import APIRequestFactory
-from rest_framework.views import APIView
-
 from Api.serializers import ReminderSerializer
 from Api.views import reminder_list, reminder_detail
 from Reminder.models import Reminder
@@ -32,10 +25,8 @@ MESSAGE = "This is a test"
 EMAIL = "b4you0870@gmail.com"
 PHONE_NUMBER = "+919148912120"
 
-factory = APIRequestFactory()
 
-
-class APITestCase(TestCase):
+class ReminderTestCase(TestCase):
     """
     Testing the APIs
     """
