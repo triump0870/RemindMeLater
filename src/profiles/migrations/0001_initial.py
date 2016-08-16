@@ -16,11 +16,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Profile',
             fields=[
-                ('user', models.OneToOneField(primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('slug', models.UUIDField(default=uuid.uuid4, editable=False, blank=True)),
-                ('picture', models.ImageField(upload_to='profile_pics/%Y-%m-%d/', null=True, verbose_name='Profile picture', blank=True)),
-                ('bio', models.CharField(max_length=200, null=True, verbose_name='Short Bio', blank=True)),
-                ('email_verified', models.BooleanField(default=False, verbose_name='Email verified')),
+                ('user', models.OneToOneField(primary_key=True,
+                                              serialize=False, to=settings.AUTH_USER_MODEL)),
+                ('slug', models.UUIDField(
+                    default=uuid.uuid4, editable=False, blank=True)),
+                ('picture', models.ImageField(upload_to='profile_pics/%Y-%m-%d/',
+                                              null=True, verbose_name='Profile picture', blank=True)),
+                ('bio', models.CharField(max_length=200,
+                                         null=True, verbose_name='Short Bio', blank=True)),
+                ('email_verified', models.BooleanField(
+                    default=False, verbose_name='Email verified')),
             ],
             options={
                 'abstract': False,

@@ -10,7 +10,7 @@ from .base import *             # NOQA
 
 
 # For security and performance reasons, DEBUG is turned off
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 BROKER_URL = os.getenv('CLOUDAMQP_URL', 'amqp://')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')

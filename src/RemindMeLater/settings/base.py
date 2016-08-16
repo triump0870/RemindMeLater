@@ -7,10 +7,12 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-from kombu import serialization
+import environ
 from os.path import dirname, join, exists, abspath
+from kombu import serialization
 
 from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages
 
 from .celeryconfig import *
 
@@ -48,7 +50,6 @@ TEMPLATES = [
 ]
 
 # Use 12factor inspired environment variables or from a file
-import environ
 env = environ.Env()
 
 # Ideally move env file should be outside the git repo
@@ -92,8 +93,8 @@ INSTALLED_APPS = (
 
     'profiles',
     'accounts',
-    'Api',
-    'Reminder',
+    'apis',
+    'reminders',
 
 )
 
@@ -140,13 +141,17 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissions',
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    ]
+    ],
+
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 }
 # Crispy Form Theme - Bootstrap 3
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # For Bootstrap 3, change error alert to 'danger'
-from django.contrib import messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
