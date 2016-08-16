@@ -10,7 +10,7 @@ from .base import *             # NOQA
 
 
 # For security and performance reasons, DEBUG is turned off
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 BROKER_URL = os.getenv('CLOUDAMQP_URL', 'amqp://')
 CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
@@ -77,12 +77,6 @@ LOGGING = {
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             'tags': {'custom-tag': 'x'},
         },
-        'proj_log_file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': join(LOGFILE_ROOT, 'project.log'),
-            'formatter': 'verbose'
-        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -91,12 +85,8 @@ LOGGING = {
     },
 
     'loggers': {
-        'project': {
-            'handlers': ['proj_log_file'],
-            'level': 'DEBUG',
-        },
         'django.request': {
-            'handlers': ['proj_log_file', 'sentry'],
+            'handlers': ['sentry'],
             'level': 'ERROR',
             'propagate': True,
         },
@@ -116,7 +106,7 @@ LOGGING = {
             'propagate': False,
         },
         '': {
-            'handlers': ['proj_log_file', 'console'],
+            'handlers': ['console'],
             'level': 'WARNING',
             'propagate': True,
         },
