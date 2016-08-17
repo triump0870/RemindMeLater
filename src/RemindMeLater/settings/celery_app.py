@@ -6,7 +6,7 @@ import raven
 from raven.contrib.celery import register_signal, register_logger_signal
 
 from django.conf import settings
-# from kombu import serialization
+from kombu import serialization
 
 os.environ.setdefault(
     'DJANGO_SETTINGS_MODULE',
@@ -27,7 +27,7 @@ class Celery(celery.Celery):
         register_signal(client)
 
 # set the default Django settings module for the 'celery' program.
-# serialization.registry._decoders.pop("application/x-python-serialize")
+serialization.registry._decoders.pop("application/x-python-serialize")
 app = Celery('RemindMeLater')
 
 # Using a string here means the worker will not have to

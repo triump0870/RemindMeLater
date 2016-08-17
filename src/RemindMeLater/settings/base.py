@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
 from os.path import dirname, join, exists, abspath
-from kombu import serialization
 
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
