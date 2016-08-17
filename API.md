@@ -19,7 +19,6 @@ The JSON object returned looks like:
 
     {
         "id": 4,
-        "task_id": "3831b77f-2968-4108-8046-b33033380cd1",
         "message": "The message",
         "phone_number": "+919876543210",
         "email": "example@example.com",
@@ -32,7 +31,6 @@ In case of a successful task execution by celery, the `completed` field gets cha
 
     {
         "id": 4,
-        "task_id": "3831b77f-2968-4108-8046-b33033380cd1",
         "message": "The message",
         "phone_number": "+919876543210",
         "email": "example@example.com",

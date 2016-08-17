@@ -25,15 +25,10 @@ class ReminderSerializer(serializers.ModelSerializer):
         return time
 
     def validate(self, data):
-        email, phone_number = None, None
+        phone_number = data.get('phone_number')
+        email = data.get('email')
 
-        if 'phone_number' in data:
-            phone_number = data['phone_number']
-
-        if 'email' in data:
-            email = data['email']
-
-        if phone_number is not None:
+        if phone_number is not None and phone_number != '':
             regex = re.compile('^\+1?\d{12,15}$')
             phone = regex.match(phone_number)
 

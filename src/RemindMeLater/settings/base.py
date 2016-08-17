@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third-party Apps
     'authtools',
     'crispy_forms',
     'easy_thumbnails',
@@ -90,6 +91,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'timezone_field',
 
+    # Internal Apps
     'profiles',
     'accounts',
     'apis',
