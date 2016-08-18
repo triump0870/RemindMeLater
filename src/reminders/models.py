@@ -36,6 +36,9 @@ class Reminder(models.Model):
         return 'Reminder #{0}'.format(self.pk)
 
     def schedule_reminder(self):
+        """
+        Creates the celery async tasks.
+        """
         date_time = datetime.combine(self.date, self.time)
         reminder_time = arrow.get(date_time).replace(
             tzinfo=self.time_zone.zone)

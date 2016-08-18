@@ -11,26 +11,52 @@ logger = logging.getLogger(__name__)
 
 
 class ReminderSerializer(serializers.ModelSerializer):
+    """
+    The representation of the serializer will be,
 
+    "id": 7,
+    "message": "The test message",
+    "phone_number": null,
+    "email": "b4you0870@gmail.com",
+    "date": "2016-08-15",
+    "time": "18:05:00",
+    "completed": false
+
+    The editable fields are `message`, `phone_number`, `email`, `date` and `time`.
+    Non editable fields are `id` and `completed`.
+
+    """
     def validate_date(self, date):
+        """
+        Checks the date field if it's in past.
+        """
         if date < datetime.now().date():
             raise serializers.ValidationError(
                 {"date": "Can't place reminder in the past"})
         return date
 
     def validate_time(self, time):
+        """
+        Checks the time field if it's in past.
+        """
         if time < datetime.now().time():
             raise serializers.ValidationError(
                 {"time": "Can't place reminder in the past"})
         return time
 
     def validate(self, data):
+        """
+        Checks whether any of phone_number or email is provided or not.
+
+        Checks whether the phone_number is in correct format or not.
+        """
         phone_number = data.get('phone_number')
         email = data.get('email')
 
         if phone_number is not None and phone_number != '':
+            # Regular expression for checking ITU standards for phone number
             regex = re.compile('^\+1?\d{12,15}$')
-            phone = regex.match(phone_number)
+            phone = regex.match(phone_number)     
 
             if phone is None:
                 raise serializers.ValidationError(
@@ -53,5 +79,6 @@ class ReminderSerializer(serializers.ModelSerializer):
             'completed',
         )
         extra_kwargs = {
+            # `completed` field will not be available for editting
             "completed": {"read_only": True}
         }

@@ -46,6 +46,9 @@ def send_sms_reminder(reminder_id):
 
 @task()
 def send_mail_reminder(reminder_id):
+    """
+    Send a Reminder to email address using Amazon SES.
+    """
     logger.info("Send Email")
 
     try:

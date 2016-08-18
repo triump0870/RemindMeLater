@@ -12,12 +12,19 @@ from .serializers import ReminderSerializer
 
 
 class ReminderList(generics.ListCreateAPIView):
+    """
+    The API endpoint /apis/reminder has GET and POST access.
+    """
     queryset = Reminder.objects.all()
     serializer_class = ReminderSerializer
     permission_classes = (AllowAny,)
 
 
 class ReminderDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    The API endpoint /apis/reminders/id has GET, PUT, PATCH 
+    and DELETE access. 
+    """
     queryset = Reminder.objects.all()
     serializer_class = ReminderSerializer
     permission_classes = (AllowAny,)

@@ -83,7 +83,8 @@ class ReminderApiTestCase(TestCase):
         self.assertEqual(expected_results['id'], response.data['id'])
         self.assertEqual(expected_results['message'], response.data['message'])
         self.assertEqual(expected_results['email'], response.data['email'])
-        self.assertEqual(expected_results['phone_number'], response.data['phone_number'])
+        self.assertEqual(expected_results[
+                         'phone_number'], response.data['phone_number'])
 
     def test_get_non_existent_reminder_details(self):
         response = self.client.get('/apis/reminders/1')
@@ -112,7 +113,8 @@ class ReminderApiTestCase(TestCase):
         serializer = ReminderSerializer(data=response.data)
         self.assertEqual(response.status_code, 400)
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(response.data['phone_number'][0], "Phone number was not provided")
+        self.assertEqual(response.data['phone_number'][
+                         0], "Phone number was not provided")
         self.assertEqual(response.data['email'][0], "Email was not provided")
 
     def test_reminder_with_invalid_phone_number(self):
@@ -133,7 +135,8 @@ class ReminderApiTestCase(TestCase):
         serializer = ReminderSerializer(data=response.data)
         self.assertEqual(response.status_code, 400)
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(response.data['email'][0], "Enter a valid email address.")
+        self.assertEqual(response.data['email'][
+                         0], "Enter a valid email address.")
 
     def test_reminder_with_date_in_past(self):
         response = self.client.post(
@@ -141,7 +144,8 @@ class ReminderApiTestCase(TestCase):
             {"message": "Hehere", "date": self.negative_date, "time": self.positive_time, "email": self.email})
         serializer = ReminderSerializer(data=response.data)
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(response.data['date']['date'], "Can't place reminder in the past")
+        self.assertEqual(response.data['date'][
+                         'date'], "Can't place reminder in the past")
 
     def test_reminder_with_time_in_past(self):
         response = self.client.post(
@@ -150,7 +154,8 @@ class ReminderApiTestCase(TestCase):
         serializer = ReminderSerializer(data=response.data)
         self.assertEqual(response.status_code, 400)
         self.assertFalse(serializer.is_valid())
-        self.assertEqual(response.data['time']['time'], "Can't place reminder in the past", msg="Passed")
+        self.assertEqual(response.data['time'][
+                         'time'], "Can't place reminder in the past", msg="Passed")
 
     def test_reminder_with_all_fields(self):
         response = self.client.post(

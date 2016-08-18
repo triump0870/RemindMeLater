@@ -1,9 +1,8 @@
 # In production set the environment variable like this:
-#    DJANGO_SETTINGS_MODULE=RemindMeLater.settings.production
+# DJANGO_SETTINGS_MODULE=RemindMeLater.settings.production
 import os
 import logging.config
 import dj_database_url
-# Sentry/ Raven settings
 import raven
 
 from .base import *             # NOQA
