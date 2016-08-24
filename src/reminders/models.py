@@ -9,12 +9,15 @@ from django.db import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 
+from RemindMeLater.settings import celery_app
+
 logger = logging.getLogger(__name__)
 
 # Create your models here.
 
 
 class Reminder(models.Model):
+    task_id = models.CharField(max_length=50, blank=True, editable=False)
     message = models.CharField(max_length=500)
     date = models.DateField(editable=True)
     time = models.TimeField(editable=True)
@@ -29,7 +32,7 @@ class Reminder(models.Model):
         blank=True,
         null=True)
     email = models.EmailField(max_length=100, blank=True, null=True)
-    completed = models.BooleanField(default=False)
+    completed = models.BooleanField(default=False, editable=False)
     time_zone = TimeZoneField(default='Asia/Kolkata')
 
     def __unicode__(self):
@@ -42,25 +45,24 @@ class Reminder(models.Model):
         date_time = datetime.combine(self.date, self.time)
         reminder_time = arrow.get(date_time).replace(
             tzinfo=self.time_zone.zone)
-        from .tasks import send_sms_reminder, send_mail_reminder
+        from .tasks import reminder_task
 
-        if self.phone_number is not None:
-            result = send_sms_reminder.apply_async(
-                (self.id,), eta=reminder_time)
-            logger.info("SMS Result:", result)
+        result = reminder_task.apply_async((self.pk,), eta=reminder_time, serializer='json')
+        logger.info(result)
 
-        if self.email is not None:
-            result = send_mail_reminder.apply_async(
-                (self.id,), eta=reminder_time, serializer='json')
-            logger.info("Email Result:", result)
+        return result.id
 
     def save(self, *args, **kwargs):
         """
         Now we need to do is ensure Django calls our
         schedule_reminder method every time an Reminder object is created or updated.
         """
+        if self.task_id:
+            celery_app.control.revoke(self.task_id)
 
-        if not self.completed:
+        super(Reminder, self).save(*args, **kwargs)
+
+        if self.id and not self.completed:
             if self.email == u'':
                 self.email = None
             if self.phone_number == u'':
@@ -81,6 +83,6 @@ class Reminder(models.Model):
                 raise ValidationError(
                     {"email": "Email field was empty", "phone_number": "Phone number was empty"})
 
-            super(Reminder, self).save(*args, **kwargs)
+            self.task_id = self.schedule_reminder()
 
-            self.schedule_reminder()
+            

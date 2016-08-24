@@ -74,6 +74,11 @@ LOGGING = {
         }
     },
     'loggers': {
+        'werkzeug': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
         'django': {
             'handlers': ['django_log_file'],
             'propagate': True,

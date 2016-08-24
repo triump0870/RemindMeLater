@@ -11,20 +11,30 @@ from .models import Reminder
 
 logger = get_task_logger(__name__)
 
-
 @task()
-def send_sms_reminder(reminder_id):
+def reminder_task(reminder_id):
+    """
+    Semd Reminder based on the provided channel.
+    """
+    try:
+        reminder = Reminder.objects.get(pk=reminder_id)
+        if reminder.phone_number:
+            send_sms_reminder(reminder)
+
+        if reminder.email:
+            send_email_reminder(reminder)
+
+        return "SUCCESS"
+
+    except Reminder.DoesNotExist:
+        return "FAILED"
+
+
+def send_sms_reminder(reminder):
     """
     Send a Reminder to phone using Twillo SMS.
     """
     logger.info("Send SMS")
-    # Get the reminder id from the database
-    try:
-        reminder = Reminder.objects.get(pk=reminder_id)
-    except Reminder.DoesNotExist:
-        # The reminder we were trying to remind someone about
-        # has been deleted, so we don't need to do anything
-        return
     body = "{0}".format(reminder.message)
 
     try:
@@ -37,31 +47,25 @@ def send_sms_reminder(reminder_id):
             body=body,
         )
         logger.info("SMS Successfully send")
-        return Reminder.objects.filter(id=reminder_id).update(completed=True)
+        return Reminder.objects.filter(id=reminder.id).update(completed=True)
 
     except Exception as e:
         logger.info("There is some problem while sending SMS\n", e)
         return e
 
 
-@task()
-def send_mail_reminder(reminder_id):
+def send_email_reminder(reminder):
     """
     Send a Reminder to email address using Amazon SES.
     """
     logger.info("Send Email")
-
-    try:
-        reminder = Reminder.objects.get(pk=reminder_id)
-    except Reminder.DoesNotExist:
-        return
     body = "{0}".format(reminder.message)
 
     try:
         send_mail("[Remind Me Later] App Notification", body,
                   settings.DEFAULT_FROM_EMAIL, [reminder.email])
         logger.info("Email Successfully send")
-        return Reminder.objects.filter(id=reminder_id).update(completed=True)
+        return Reminder.objects.filter(id=reminder.id).update(completed=True)
 
     except Exception as e:
         logger.info("There is some problem while sending email\n", e)
