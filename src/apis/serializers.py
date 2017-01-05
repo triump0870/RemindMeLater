@@ -71,7 +71,6 @@ class ReminderSerializer(serializers.ModelSerializer):
         model = Reminder
         fields = (
             'id',
-            'task_id',
             'message',
             'phone_number',
             'email',
