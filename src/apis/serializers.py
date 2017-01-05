@@ -45,10 +45,10 @@ class ReminderSerializer(serializers.ModelSerializer):
         """
         phone_number = data.get('phone_number')
         email = data.get('email')
-        date = data.get('date')
-        time = data.get('time')
-            
-        _datetime = datetime.strptime(date + " " + time, "%Y-%m-%d %H:%M")
+        _date = data.get('date')
+        _time = data.get('time')
+
+        _datetime = datetime.combine(_date, _time)
         if _datetime < datetime.now():
             raise serializers.ValidationError(
                 {"time": "Can't place reminder in the past"})
