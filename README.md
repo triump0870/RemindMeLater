@@ -29,5 +29,5 @@ Run migrations:
 
 Take a look at the docs for more information.
 
-[0]: https://remind-me-later.herokuapp.com/
+[0]: https://remind-me-later.herokuapp.com/apis/remiders
 =======
