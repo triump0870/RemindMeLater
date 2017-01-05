@@ -19,11 +19,11 @@ To set up a development environment quickly, first install Python. Setup a virtu
 
 Install all dependencies:
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 Run migrations:
 
-python src/manage.py migrate
+`python src/manage.py migrate`
 
 ### Detailed instructions
 
