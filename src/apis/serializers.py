@@ -35,24 +35,24 @@ class ReminderSerializer(serializers.ModelSerializer):
                 {"date": "Can't place reminder in the past"})
         return date
 
-    def validate_time(self, time):
-        """
-        Checks the time field if it's in past.
-        """
-        if time < datetime.now().time():
-            raise serializers.ValidationError(
-                {"time": "Can't place reminder in the past"})
-        return time
-
     def validate(self, data):
         """
+        Checks the time field if it's in past.
+
         Checks whether any of phone_number or email is provided or not.
 
         Checks whether the phone_number is in correct format or not.
         """
         phone_number = data.get('phone_number')
         email = data.get('email')
-
+        date = data.get('date')
+        time = data.get('time')
+            
+        _datetime = datetime.strptime(date + " " + time, "%Y-%m-%d %H:%M")
+        if _datetime < datetime.now():
+            raise serializers.ValidationError(
+                {"time": "Can't place reminder in the past"})
+            
         if phone_number is not None and phone_number != '':
             # Regular expression for checking ITU standards for phone number
             regex = re.compile('^\+1?\d{12,15}$')
