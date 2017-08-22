@@ -29,4 +29,5 @@ Run migrations:
 
 Take a look at the docs for more information.
 
-=======
+
+---------------
