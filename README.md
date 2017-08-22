@@ -1,4 +1,4 @@
-# [Remind Me Later][0]
+# [Remind Me Later](https://remind-me-later.herokuapp.com/apis/reminders)
 ----------------
 
 RemindMeLater is a webapp which reminds user at user's specified time. Anybody can open the webapp, provide either their email address or their mobile number or both and setup a reminder with a message. RemindMeLater then reminds them over their preferred channel of notification with the message.
@@ -29,5 +29,4 @@ Run migrations:
 
 Take a look at the docs for more information.
 
-[0]: https://remind-me-later.herokuapp.com/apis/remiders
 =======
